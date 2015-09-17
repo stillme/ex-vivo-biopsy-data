@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="author" content="Toufic Mayassi" />
+
+<meta name="date" content="2015-09-15" />
+
+<title>ex vivo biopsy data</title>
+
+<script src="ex_vivo_biopsy_data_files/jquery-1.11.0/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="ex_vivo_biopsy_data_files/bootstrap-3.3.1/css/cosmo.min.css" rel="stylesheet" />
+<script src="ex_vivo_biopsy_data_files/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+<script src="ex_vivo_biopsy_data_files/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
+<script src="ex_vivo_biopsy_data_files/bootstrap-3.3.1/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="ex_vivo_biopsy_data_files/highlight/default.css"
+      type="text/css" />
+<script src="ex_vivo_biopsy_data_files/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+<div class="container-fluid main-container">
+
+
+<div id="header">
+<h1 class="title">ex vivo biopsy data</h1>
+<h4 class="author"><em>Toufic Mayassi</em></h4>
+<h4 class="date"><em>September 15, 2015</em></h4>
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#importinggrooming-data-set"><span class="toc-section-number">1</span> importing/grooming data set</a></li>
+<li><a href="#ggplot-2"><span class="toc-section-number">2</span> ggplot 2</a></li>
+<li><a href="#total-gd-in-iel"><span class="toc-section-number">3</span> Total gd % in IEL</a></li>
+<li><a href="#total-gd-in-pbl"><span class="toc-section-number">4</span> Total gd % in PBL</a></li>
+<li><a href="#vd1-iel-of-gd"><span class="toc-section-number">5</span> VD1 IEL % of GD</a></li>
+<li><a href="#vd2-iel-of-gd"><span class="toc-section-number">6</span> VD2 IEL % of GD</a></li>
+<li><a href="#dn-iel-of-gd"><span class="toc-section-number">7</span> DN IEL % of GD</a></li>
+<li><a href="#vd1-iel-of-cd3"><span class="toc-section-number">8</span> VD1 IEL % of CD3</a></li>
+<li><a href="#vd2-iel-of-cd3"><span class="toc-section-number">9</span> VD2 IEL % of CD3</a></li>
+<li><a href="#dn-iel-of-cd3"><span class="toc-section-number">10</span> DN IEL % of CD3</a></li>
+<li><a href="#total-gd-in-iel-for-key3_subsets"><span class="toc-section-number">11</span> Total gd % in IEL for key3_subsets</a></li>
+</ul>
+</div>
+
+<div id="importinggrooming-data-set" class="section level1">
+<h1><span class="header-section-number">1</span> importing/grooming data set</h1>
+<pre class="r"><code>library(&quot;dplyr&quot;)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;
+## 
+## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag
+## 
+## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>biopsy_data &lt;- read.csv(&quot;Data/IEL_PBL_frequency_data.csv&quot;, header = TRUE)
+
+key3_subsets &lt;- filter(biopsy_data, Disease_State == &quot;Control&quot; | Disease_State == &quot;Active&quot; | Disease_State == &quot;GFD&quot;)</code></pre>
+</div>
+<div id="ggplot-2" class="section level1">
+<h1><span class="header-section-number">2</span> ggplot 2</h1>
+<pre class="r"><code>library(&quot;ggplot2&quot;)</code></pre>
+</div>
+<div id="total-gd-in-iel" class="section level1">
+<h1><span class="header-section-number">3</span> Total gd % in IEL</h1>
+<pre class="r"><code>p &lt;- ggplot(data = biopsy_data, mapping = aes(x = Disease_State,
+                                           y = IEL)) + labs(title = &quot;TCRɣδ IEL&quot;, x = &quot;&quot;, y = &quot;% of CD3pos IEL&quot;) + geom_boxplot(notch = TRUE, notchwidth = .3, aes(color = Disease_State))
+p</code></pre>
+<pre><code>## Warning: Removed 8 rows containing non-finite values (stat_boxplot).</code></pre>
+<pre><code>## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.</code></pre>
+<div class="figure">
+<img src="ex_vivo_biopsy_data_files/figure-html/unnamed-chunk-3-1.png" />
+</div>
+</div>
+<div id="total-gd-in-pbl" class="section level1">
+<h1><span class="header-section-number">4</span> Total gd % in PBL</h1>
+<pre class="r"><code>p &lt;- ggplot(data = biopsy_data, mapping = aes(x = Disease_State,
+                                           y = PBL)) + labs(title = &quot;TCRɣδ PBL&quot;, x = &quot;&quot;, y = &quot;% of CD3pos PBL&quot;) + geom_boxplot(notch = TRUE, notchwidth = .3, aes(color = Disease_State))
+p</code></pre>
+<pre><code>## Warning: Removed 9 rows containing non-finite values (stat_boxplot).</code></pre>
+<pre><code>## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.</code></pre>
+<div class="figure">
+<img src="ex_vivo_biopsy_data_files/figure-html/unnamed-chunk-4-1.png" />
+</div>
+</div>
+<div id="vd1-iel-of-gd" class="section level1">
+<h1><span class="header-section-number">5</span> VD1 IEL % of GD</h1>
+<pre class="r"><code>p &lt;- ggplot(data = biopsy_data, mapping = aes(x = Disease_State,
+                                           y = VD1_IEL_of_GD)) + labs(title = &quot;Vδ1 IEL&quot;, x = &quot;&quot;, y = &quot;% of GDpos IEL&quot;) + geom_boxplot(notch = FALSE, notchwidth = .3, aes(color = Disease_State))
+p</code></pre>
+<pre><code>## Warning: Removed 14 rows containing non-finite values (stat_boxplot).</code></pre>
+<div class="figure">
+<img src="ex_vivo_biopsy_data_files/figure-html/unnamed-chunk-5-1.png" />
+</div>
+</div>
+<div id="vd2-iel-of-gd" class="section level1">
+<h1><span class="header-section-number">6</span> VD2 IEL % of GD</h1>
+<pre class="r"><code>p &lt;- ggplot(data = biopsy_data, mapping = aes(x = Disease_State,
+                                           y = VD2_IEL_of_GD)) + labs(title = &quot;Vδ2 IEL&quot;, x = &quot;&quot;, y = &quot;% of GDpos IEL&quot;) + geom_boxplot(notch = FALSE, notchwidth = .3, aes(color = Disease_State))
+p</code></pre>
+<pre><code>## Warning: Removed 20 rows containing non-finite values (stat_boxplot).</code></pre>
+<div class="figure">
+<img src="ex_vivo_biopsy_data_files/figure-html/unnamed-chunk-6-1.png" />
+</div>
+</div>
+<div id="dn-iel-of-gd" class="section level1">
+<h1><span class="header-section-number">7</span> DN IEL % of GD</h1>
+<pre class="r"><code>p &lt;- ggplot(data = biopsy_data, mapping = aes(x = Disease_State,
+                                           y = DN_IEL_of_GD)) + labs(title = &quot;DN IEL&quot;, x = &quot;&quot;, y = &quot;% of GDpos IEL&quot;) + geom_boxplot(notch = FALSE, notchwidth = .3, aes(color = Disease_State))
+p</code></pre>
+<pre><code>## Warning: Removed 20 rows containing non-finite values (stat_boxplot).</code></pre>
+<div class="figure">
+<img src="ex_vivo_biopsy_data_files/figure-html/unnamed-chunk-7-1.png" />
+</div>
+</div>
+<div id="vd1-iel-of-cd3" class="section level1">
+<h1><span class="header-section-number">8</span> VD1 IEL % of CD3</h1>
+<pre class="r"><code>p &lt;- ggplot(data = biopsy_data, mapping = aes(x = Disease_State,
+                                           y = VD1_IEL_of_CD3)) + labs(title = &quot;Vδ1 IEL&quot;, x = &quot;&quot;, y = &quot;% of CD3pos IEL&quot;) + geom_boxplot(notch = TRUE, notchwidth = .3, aes(color = Disease_State))
+p</code></pre>
+<pre><code>## Warning: Removed 14 rows containing non-finite values (stat_boxplot).</code></pre>
+<pre><code>## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.</code></pre>
+<div class="figure">
+<img src="ex_vivo_biopsy_data_files/figure-html/unnamed-chunk-8-1.png" />
+</div>
+</div>
+<div id="vd2-iel-of-cd3" class="section level1">
+<h1><span class="header-section-number">9</span> VD2 IEL % of CD3</h1>
+<pre class="r"><code>p &lt;- ggplot(data = biopsy_data, mapping = aes(x = Disease_State,
+                                           y = VD2_IEL_of_CD3)) + labs(title = &quot;Vδ2 IEL&quot;, x = &quot;&quot;, y = &quot;% of CD3pos IEL&quot;) + geom_boxplot(notch = TRUE, notchwidth = .3, aes(color = Disease_State))
+p</code></pre>
+<pre><code>## Warning: Removed 20 rows containing non-finite values (stat_boxplot).</code></pre>
+<pre><code>## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.</code></pre>
+<div class="figure">
+<img src="ex_vivo_biopsy_data_files/figure-html/unnamed-chunk-9-1.png" />
+</div>
+</div>
+<div id="dn-iel-of-cd3" class="section level1">
+<h1><span class="header-section-number">10</span> DN IEL % of CD3</h1>
+<pre class="r"><code>p &lt;- ggplot(data = biopsy_data, mapping = aes(x = Disease_State,
+                                           y = DN_IEL_of_CD3)) + labs(title = &quot;DN IEL&quot;, x = &quot;&quot;, y = &quot;% of CD3pos IEL&quot;) + geom_boxplot(notch = TRUE, notchwidth = .3, aes(color = Disease_State))
+p</code></pre>
+<pre><code>## Warning: Removed 20 rows containing non-finite values (stat_boxplot).</code></pre>
+<pre><code>## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.</code></pre>
+<div class="figure">
+<img src="ex_vivo_biopsy_data_files/figure-html/unnamed-chunk-10-1.png" />
+</div>
+</div>
+<div id="total-gd-in-iel-for-key3_subsets" class="section level1">
+<h1><span class="header-section-number">11</span> Total gd % in IEL for key3_subsets</h1>
+<pre class="r"><code>p &lt;- ggplot(data = key3_subsets, mapping = aes(x = Disease_State,
+                                           y = IEL)) + labs(title = &quot;TCRɣδ IEL&quot;, x = &quot;&quot;, y = &quot;% of CD3pos IEL&quot;) + geom_boxplot(notch = TRUE, notchwidth = .3, aes(color = Disease_State))
+p</code></pre>
+<pre><code>## Warning: Removed 4 rows containing non-finite values (stat_boxplot).</code></pre>
+<pre><code>## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.
+## notch went outside hinges. Try setting notch=FALSE.</code></pre>
+<div class="figure">
+<img src="ex_vivo_biopsy_data_files/figure-html/unnamed-chunk-11-1.png" />
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

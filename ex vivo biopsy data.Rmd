@@ -1,0 +1,107 @@
+---
+title: "ex vivo biopsy data"
+author: "Toufic Mayassi"
+date: "September 15, 2015"
+output:
+  html_document:
+    fig_caption: yes
+    fig_height: 6
+    fig_width: 9
+    highight: tango
+    number_sections: yes
+    self_contained: no
+    theme: cosmo
+    toc: yes
+  pdf_document:
+    toc: yes
+  word_document: default
+---
+
+# importing/grooming data set
+
+```{r}
+library("dplyr")
+
+biopsy_data <- read.csv("Data/IEL_PBL_frequency_data.csv", header = TRUE)
+
+key3_subsets <- filter(biopsy_data, Disease_State == "Control" | Disease_State == "Active" | Disease_State == "GFD")
+
+```
+
+# ggplot 2
+
+```{r}
+library("ggplot2")
+```
+
+# Total gd % in IEL 
+
+```{r}
+p <- ggplot(data = biopsy_data, mapping = aes(x = Disease_State,
+                                           y = IEL)) + labs(title = "TCRɣδ IEL", x = "", y = "% of CD3pos IEL") + geom_boxplot(notch = TRUE, notchwidth = .3, aes(color = Disease_State))
+p
+```
+
+# Total gd % in PBL
+
+```{r}
+p <- ggplot(data = biopsy_data, mapping = aes(x = Disease_State,
+                                           y = PBL)) + labs(title = "TCRɣδ PBL", x = "", y = "% of CD3pos PBL") + geom_boxplot(notch = TRUE, notchwidth = .3, aes(color = Disease_State))
+p
+```
+
+# VD1 IEL % of GD 
+
+```{r}
+p <- ggplot(data = biopsy_data, mapping = aes(x = Disease_State,
+                                           y = VD1_IEL_of_GD)) + labs(title = "Vδ1 IEL", x = "", y = "% of GDpos IEL") + geom_boxplot(notch = FALSE, notchwidth = .3, aes(color = Disease_State))
+p
+```
+
+# VD2 IEL % of GD 
+
+```{r}
+p <- ggplot(data = biopsy_data, mapping = aes(x = Disease_State,
+                                           y = VD2_IEL_of_GD)) + labs(title = "Vδ2 IEL", x = "", y = "% of GDpos IEL") + geom_boxplot(notch = FALSE, notchwidth = .3, aes(color = Disease_State))
+p
+```
+
+# DN IEL % of GD 
+
+```{r}
+p <- ggplot(data = biopsy_data, mapping = aes(x = Disease_State,
+                                           y = DN_IEL_of_GD)) + labs(title = "DN IEL", x = "", y = "% of GDpos IEL") + geom_boxplot(notch = FALSE, notchwidth = .3, aes(color = Disease_State))
+p
+```
+
+# VD1 IEL % of CD3 
+
+```{r}
+p <- ggplot(data = biopsy_data, mapping = aes(x = Disease_State,
+                                           y = VD1_IEL_of_CD3)) + labs(title = "Vδ1 IEL", x = "", y = "% of CD3pos IEL") + geom_boxplot(notch = TRUE, notchwidth = .3, aes(color = Disease_State))
+p
+```
+
+# VD2 IEL % of CD3 
+
+```{r}
+p <- ggplot(data = biopsy_data, mapping = aes(x = Disease_State,
+                                           y = VD2_IEL_of_CD3)) + labs(title = "Vδ2 IEL", x = "", y = "% of CD3pos IEL") + geom_boxplot(notch = TRUE, notchwidth = .3, aes(color = Disease_State))
+p
+```
+
+# DN IEL % of CD3 
+
+```{r}
+p <- ggplot(data = biopsy_data, mapping = aes(x = Disease_State,
+                                           y = DN_IEL_of_CD3)) + labs(title = "DN IEL", x = "", y = "% of CD3pos IEL") + geom_boxplot(notch = TRUE, notchwidth = .3, aes(color = Disease_State))
+p
+```
+
+# Total gd % in IEL for key3_subsets
+
+```{r}
+p <- ggplot(data = key3_subsets, mapping = aes(x = Disease_State,
+                                           y = IEL)) + labs(title = "TCRɣδ IEL", x = "", y = "% of CD3pos IEL") + geom_boxplot(notch = TRUE, notchwidth = .3, aes(color = Disease_State))
+p
+```
