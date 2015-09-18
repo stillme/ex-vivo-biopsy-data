@@ -34,6 +34,9 @@ peds <- filter(key3_subsets, Age < 20)
 
 adults <- filter(key3_subsets, Age > 20)
 
+updated_stain <- filter(key3_subsets, Stain == "B" | Stain == "B1")
+
+best_stainings <- filter(key3_subsets, Stain == "B")
 ```
 
 # ggplot 2
@@ -47,6 +50,30 @@ library("ggplot2")
 ```{r}
 p <- ggplot(data = biopsy_data, mapping = aes(x = Disease_State,
                                            y = IEL)) + labs(title = "All TCRɣδ IEL", x = "", y = "% of CD3pos IEL") + geom_boxplot(notch = TRUE, notchwidth = .3, aes(color = Disease_State))
+p
+```
+
+# Total gd % in IEL for key3_subsets
+
+```{r}
+p <- ggplot(data = key3_subsets, mapping = aes(x = Disease_State,
+                                           y = IEL)) + labs(title = "TCRɣδ IEL", x = "", y = "% of CD3pos IEL") + geom_boxplot(notch = FALSE, notchwidth = .1, outlier.colour = "purple", outlier.size = 3, aes(color = Disease_State)) + geom_jitter()
+p
+```
+
+# Total gd % in IEL with old staining method excluded
+
+```{r}
+p <- ggplot(data = updated_stain, mapping = aes(x = Disease_State,
+                                           y = IEL)) + labs(title = "All TCRɣδ IEL", x = "", y = "% of CD3pos IEL") + geom_boxplot(notch = FALSE, notchwidth = .1, outlier.colour = "purple", outlier.size = 3, aes(color = Disease_State)) + geom_jitter()
+p
+```
+
+# Total gd % in IEL with old staining method excluded and poor stains excluded(where cell numbers were too low to faithfully gate)
+
+```{r}
+p <- ggplot(data = best_stainings, mapping = aes(x = Disease_State,
+                                           y = IEL)) + labs(title = "All TCRɣδ IEL", x = "", y = "% of CD3pos IEL") + geom_boxplot(notch = FALSE, notchwidth = .1, outlier.colour = "purple", outlier.size = 3, aes(color = Disease_State)) + geom_jitter()
 p
 ```
 
@@ -135,13 +162,5 @@ p
 ```{r}
 p <- ggplot(data = biopsy_data, mapping = aes(x = Disease_State,
                                            y = DN_IEL_of_CD3)) + labs(title = "DN IEL", x = "", y = "% of CD3pos IEL") + geom_boxplot(notch = TRUE, notchwidth = .3, aes(color = Disease_State))
-p
-```
-
-# Total gd % in IEL for key3_subsets
-
-```{r}
-p <- ggplot(data = key3_subsets, mapping = aes(x = Disease_State,
-                                           y = IEL)) + labs(title = "TCRɣδ IEL", x = "", y = "% of CD3pos IEL") + geom_boxplot(notch = TRUE, notchwidth = .3, aes(color = Disease_State))
 p
 ```
